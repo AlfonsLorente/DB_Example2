@@ -10,6 +10,8 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import java.nio.charset.CoderMalfunctionError;
+
 public class WordListOpenHelper extends SQLiteOpenHelper {
 
     // It's a good idea to always define a log tag like this.
@@ -160,7 +162,23 @@ public class WordListOpenHelper extends SQLiteOpenHelper {
     }
 
 
+    public Cursor search (String searchString) {
+        String[] columns = new String[]{COL_WORD};
+        searchString = "%" + searchString + "%";
+        String where = COL_WORD + " LIKE ?";
+        String[]whereArgs = new String[]{searchString};
+        String orderBy = COL_WORD + " ASC";
 
+        Cursor cursor = null;
 
+        try {
+            if (mReadableDB == null) mReadableDB = getReadableDatabase();
+            cursor = mReadableDB.query(WORD_LIST_TABLE, columns, where, whereArgs,
+                    null, null, orderBy);
+        } catch (Exception e) {
+            Log.d(TAG, "SEARCH EXCEPTION! " + e);
+        }
 
+        return cursor;
+    }
 }
