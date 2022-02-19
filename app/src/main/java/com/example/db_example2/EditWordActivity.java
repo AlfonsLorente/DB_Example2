@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package com.android.example.wordlistsql;
+package com.example.db_example2;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 
 /**
@@ -36,9 +37,9 @@ public class EditWordActivity extends AppCompatActivity {
     private EditText mEditWordView;
 
     // Unique tag for the intent reply.
-    public static final String EXTRA_REPLY = "com.example.android.wordlistsql.REPLY";
+    public static final String EXTRA_REPLY = "com.example.db_example2.REPLY";
 
-    int mId = MainActivity.WORD_ADD;
+    int mId = com.example.db_example2.MainActivity.WORD_ADD;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,8 +53,8 @@ public class EditWordActivity extends AppCompatActivity {
 
         // If we are passed content, fill it in for the user to edit.
         if (extras != null) {
-            int id = extras.getInt(WordListAdapter.EXTRA_ID, NO_ID);
-            String word = extras.getString(WordListAdapter.EXTRA_WORD, NO_WORD);
+            int id = extras.getInt(com.example.db_example2.WordListAdapter.EXTRA_ID, NO_ID);
+            String word = extras.getString(com.example.db_example2.WordListAdapter.EXTRA_WORD, NO_WORD);
             if (id != NO_ID && word != NO_WORD) {
                 mId = id;
                 mEditWordView.setText(word);
@@ -71,7 +72,7 @@ public class EditWordActivity extends AppCompatActivity {
 
         Intent replyIntent = new Intent();
         replyIntent.putExtra(EXTRA_REPLY, word);
-        replyIntent.putExtra(WordListAdapter.EXTRA_ID, mId);
+        replyIntent.putExtra(com.example.db_example2.WordListAdapter.EXTRA_ID, mId);
         setResult(RESULT_OK, replyIntent);
         finish();
     }

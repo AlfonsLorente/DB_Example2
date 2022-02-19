@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-package com.android.example.wordlistsql;
+package com.example.db_example2;
 
 import android.content.Context;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Implements a simple Adapter for a RecyclerView.

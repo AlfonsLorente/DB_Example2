@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-package com.android.example.wordlistsql;
+package com.example.db_example2;
 
 import android.content.Intent;
 import android.os.Bundle;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.view.View;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
  * Implements a RecyclerView that displays a list of words from a SQL database.
@@ -38,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int WORD_ADD = -1;
 
     private RecyclerView mRecyclerView;
-    private WordListAdapter mAdapter;
+    private com.example.db_example2.WordListAdapter mAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         // Create recycler view.
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         // Create an mAdapter and supply the data to be displayed.
-        mAdapter = new WordListAdapter(this);
+        mAdapter = new com.example.db_example2.WordListAdapter(this);
         // Connect the mAdapter with the recycler view.
         mRecyclerView.setAdapter(mAdapter);
         // Give the recycler view a default layout manager.
