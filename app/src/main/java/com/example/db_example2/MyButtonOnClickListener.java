@@ -32,7 +32,9 @@ public class MyButtonOnClickListener implements View.OnClickListener {
         this.word = word;
     }
 
+
+    @Override
     public void onClick(View v) {
-        // Implemented in WordListAdapter
+
     }
 }

@@ -16,7 +16,9 @@
 
 package com.example.db_example2;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +32,8 @@ import androidx.recyclerview.widget.RecyclerView;
  * Demonstrates how to add a click handler for each item in the ViewHolder.
  */
 public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordViewHolder> {
+
+    private static final String EXTRA_POSITION = "POSITION";
 
     /**
      *  Custom view holder with a text view and two buttons.
@@ -54,10 +58,13 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
 
     private final LayoutInflater mInflater;
     Context mContext;
+    WordListOpenHelper mDB;
 
-    public WordListAdapter(Context context) {
+
+    public WordListAdapter(Context context, WordListOpenHelper db) {
         mInflater = LayoutInflater.from(context);
         mContext = context;
+        mDB = db;
     }
 
     @Override
@@ -68,13 +75,45 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
 
     @Override
     public void onBindViewHolder(WordViewHolder holder, int position) {
-        holder.wordItemView.setText("placeholder");
+        WordItem word = mDB.query(position);
+        holder.wordItemView.setText(word.getWord());
+        // Keep a reference to the view holder for the click listener
+        final WordViewHolder h = holder; // needs to be final for use in callback
+
+        // Attach a click listener to the DELETE button.
+        holder.delete_button.setOnClickListener(
+                new MyButtonOnClickListener(word.getId(), null)  {
+
+                    @Override
+                    public void onClick(View v ) {
+                        int deleted = mDB.delete(id);
+                        if (deleted >= 0)
+                            notifyItemRemoved(h.getAdapterPosition());
+                    }
+                });
+
+        // Attach a click listener to the EDIT button.
+        holder.edit_button.setOnClickListener(new MyButtonOnClickListener(
+                word.getId(), word.getWord()) {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, EditWordActivity.class);
+
+                intent.putExtra(EXTRA_ID, id);
+                intent.putExtra(EXTRA_POSITION, h.getAdapterPosition());
+                intent.putExtra(EXTRA_WORD, word);
+
+                // Start an empty edit activity.
+                ((Activity) mContext).startActivityForResult(
+                        intent, MainActivity.WORD_EDIT);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        // Placeholder so we can see some mock data.
-        return 10;
+        return (int) mDB.count();
     }
 }
 
